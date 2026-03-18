@@ -63,12 +63,20 @@ The objective is to develop:
 ```
 keras-architecture-recovery/
 │
-├── docs/ → Architecture notes and recovered views
-├── diagrams/ → UML / PlantUML architecture diagrams
-├── experiments/ → Small AI and Keras exploration scripts
-├── notes/ → Personal architecture insights
-├── qa/ → Architecture analysis exercises
-└── slides/ → Midterm and final presentation materials
+├── docs/
+│   └── architecture-recovery-process.md → Shared methodology
+├── weeks/
+│   ├── week01/
+│   │   ├── docs/ → Weekly logs and architecture notes
+│   │   ├── diagrams/ → Mermaid architecture diagrams
+│   │   ├── experiments/ → Runnable exploration scripts
+│   │   ├── interpretation/ → Architectural analysis and findings
+│   │   ├── notes/ → Weekly personal notes
+│   │   ├── qa/ → Weekly QA exercises
+│   │   └── slides/ → Weekly presentation assets
+│   ├── week02/ (same structure)
+│   └── week03/ (same structure)
+└── vendor/ → Vendored Keras source used for recovery
 
 ```
 
