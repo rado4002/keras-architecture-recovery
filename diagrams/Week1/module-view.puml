@@ -1,0 +1,44 @@
+/'
+Diagram 1 — Keras Module View (Static Dependency Structure)
+
+Diagram Purpose & Meaning:
+This diagram presents the high-level static dependency structure of Keras.
+It shows how the main architectural subsystems relate through directed dependencies.
+
+Key relationships shown:
+- models depends on layers
+- models depends on optimizers
+- models depends on losses
+- layers depends on backend
+- optimizers depends on backend
+'/
+
+@startuml
+title Keras Week1 - Module View (Static)
+left to right direction
+
+package "Modeling" {
+	component models
+	component layers
+}
+
+package "Training" {
+	component optimizers
+	component losses
+}
+
+package "Execution" {
+	component backend
+}
+
+models --> layers
+models --> optimizers
+models --> losses
+layers --> backend
+optimizers --> backend
+
+note bottom
+High-level dependency map for core subsystems.
+Detailed internals are expanded in module-decomposition.puml.
+end note
+@enduml
