@@ -56,8 +56,10 @@ For each `weekXX`, run this cycle:
 
 ## 5) Standard Artifacts Per Week
 
-- `docs/weekXX-log.md`
+- `README.md`
   - objectives, methods, experiments, findings, blockers, next week plan.
+- `docs/*`
+   - reading notes and supplementary weekly documents.
 - `diagrams/*.md`
   - Mermaid diagrams with concise titles and legend/notes.
 - `experiments/*`
@@ -73,14 +75,14 @@ A week is done when all are true:
 
 - At least one updated diagram is viewable on GitHub.
 - At least one experiment supports each major claim.
-- `weekXX-log.md` includes blockers + next steps.
+- `README.md` includes blockers + next steps.
 - Terminology is consistent across docs/diagrams.
 - All files follow naming conventions (no spaces/special chars).
 
 ## 7) Naming Rules
 
 - Week folders: `week01`, `week02`, `week03`, ...
-- Logs: `week01-log.md`, `week02-log.md`, ...
+- Weekly logs: `weeks/weekXX/README.md`
 - Diagrams: `module-view.md`, `module-decomposition.md`, `c-and-c-view.md`, `allocation-view.md`
 - Experiments: `exp01_<purpose>.py`, `exp02_<purpose>.py`
 

@@ -82,7 +82,8 @@ keras-architecture-recovery/
 │   └── architecture-recovery-process.md → Shared methodology
 ├── weeks/
 │   ├── week01/
-│   │   ├── docs/ → Weekly logs and reading notes (e.g., Reading Note1.md)
+│   │   ├── README.md → Weekly log and summary
+│   │   ├── docs/ → Reading notes and supplementary docs
 │   │   ├── diagrams/ → Mermaid architecture diagrams
 │   │   ├── experiments/ → Runnable exploration scripts
 │   │   ├── interpretation/ → Architectural analysis and findings
@@ -97,10 +98,11 @@ keras-architecture-recovery/
 
 Each **weekly folder** contains:
 
+- week-level README log  
 - experiments  
 - diagrams  
 - interpretation files  
-- docs (reading notes + logs)  
+- docs (reading notes + supporting notes)  
 
 This incremental structure ensures continuous project maturity.
 

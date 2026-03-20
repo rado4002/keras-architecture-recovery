@@ -6,7 +6,8 @@ This folder organizes the architecture recovery work by week.
 
 Each `weekXX` folder should contain:
 
-- `docs/` — weekly logs, reading notes, and summaries
+- `README.md` — weekly log and summary for GitHub-friendly viewing
+- `docs/` — reading notes and supplementary documents
 - `diagrams/` — Mermaid diagrams viewable directly on GitHub
 - `experiments/` — runnable scripts used for evidence collection
 - `interpretation/` — architectural meaning, responsibilities, and patterns
