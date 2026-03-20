@@ -160,23 +160,29 @@ By the end of the project, the following outcomes are expected:
 
 ## 📅 Current Project Status  
 
-✅ **Week 1 Completed — Initial Architecture Exploration**
+✅ **Week 01 Completed — Initial Architecture Reconnaissance**
 
-Achievements:
+- Environment and repository setup completed
+- Core Keras module mapping completed (models, layers, ops, backend abstraction)
+- Initial forward-pass runtime tracing completed
+- First architecture patterns identified (layered + pipeline)
+- Initial responsibility analysis documented
 
-- Environment setup and repository initialization  
-- High-level module structure discovery  
-- Initial runtime forward-flow tracing  
-- Identification of layered and pipeline architectural patterns  
-- Creation of first architecture diagrams  
-- Responsibility interpretation of major subsystems  
+✅ **Week 02 Completed — Module, C&C, and Allocation Deepening**
 
-Next phases will explore:
+- Static dependency discovery validated (`layers → ops → backend`)
+- Forward-pass flow traced with custom debug layer instrumentation
+- Backward/gradient flow recovered with manual training-step experiment
+- Device allocation view documented (Python orchestration vs backend/hardware execution)
+- Architectural interpretation finalized (modularity, delegation, pattern analysis)
 
-- Gradient flow runtime architecture  
-- Optimizer interaction mechanisms  
-- Backend execution allocation  
-- Performance and scalability architectural aspects  
+🟡 **Week 03 In Progress — Next Recovery Phase**
+
+Current focus:
+
+- Expand C&C analysis for Functional API and multi-layer model structures
+- Trace full `model.fit()` runtime call chain across backends
+- Refine inter-layer dependency and optimization pattern documentation
 
 ---
 
