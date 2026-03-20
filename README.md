@@ -184,3 +184,4 @@ This project aims to bridge the gap between
 **classical software architecture education**  
 and  
 **modern intelligent software systems.**
+

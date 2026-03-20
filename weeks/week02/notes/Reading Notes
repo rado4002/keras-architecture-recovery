@@ -1,0 +1,317 @@
+
+
+```markdown
+# Keras Architecture Recovery — Reading Notes  
+**Week 2 / 10**
+
+## 🎯 Goal of This Reading
+Understand how software is structured, how it runs, and where it executes — using **Keras** as a real system.
+
+**👉 Focus areas:**
+- Module Structures (static)
+- C&C Structures (runtime)
+- Allocation Structures (execution environment)
+
+---
+
+## 🧠 1. MODULE STRUCTURES (STATIC VIEW)
+
+### 🧩 Intuition
+Think of a system as a **map of dependencies**:  
+“Who needs who to exist?”
+
+### 📘 Uses Relationship
+**✅ Definition**  
+A *uses* relationship means: one module depends on another module to function.
+
+**🧠 Key Idea**  
+If **A uses B**, then:
+- A depends on B
+- If B changes → A may break
+
+### 🔥 Keras Example
+
+```python
+model = keras.Sequential([
+    keras.layers.Dense(4)
+])
+```
+
+**Dependencies:**
+
+```mermaid
+graph TD
+    Model --> Layer
+    Layer --> Ops
+    Ops --> Backend
+```
+
+### 💡 Architectural Insight
+Uses relationships help you:
+- Understand impact of changes
+- Track dependencies
+- Control complexity
+
+### 🏗️ Layered Architecture
+
+**🧩 Intuition**  
+Think of floors in a building:
+- Top floor uses lower floors
+- Lower floors don’t depend on upper floors
+
+**✅ Definition**  
+A system is **layered** when:
+- Each layer has a clear role
+- Each layer only uses the one below it
+
+**🔥 Keras Layers (Real)**
+
+| Layer    | Responsibility              |
+|----------|-----------------------------|
+| Model    | Orchestrates                |
+| Layer    | Defines computation         |
+| Ops      | Provides math               |
+| Backend  | Executes                    |
+
+**🧱 Diagram**
+
+```mermaid
+graph TD
+    Model --> Layer
+    Layer --> Ops
+    Ops --> Backend
+```
+
+### ⚠️ Why Dependency Direction Matters
+
+**🧩 Intuition**  
+Dependencies must go **DOWN**, not up
+
+**❌ Bad Design**
+
+```mermaid
+graph TD
+    Backend --> Layer
+    Layer --> Model
+```
+
+→ Low-level controls high-level → **unstable**
+
+**✅ Good Design**
+
+```mermaid
+graph TD
+    Model --> Layer
+    Layer --> Ops
+    Ops --> Backend
+```
+
+**🧠 Key Rule**  
+High-level modules should **NOT** depend on low-level details directly
+
+**🔥 Keras Insight**  
+Keras avoids:
+
+```python
+Layer → TensorFlow directly   ❌
+```
+
+Instead:
+
+```python
+Layer → ops → backend         ✅
+```
+
+**This allows:**
+- Backend switching (TF → JAX → PyTorch…)
+- Clean modularity
+- High portability
+
+---
+
+## ⚙️ 2. C&C STRUCTURES (RUNTIME VIEW)
+
+### 🧩 Intuition
+Not “who depends on who”  
+But **“who talks to who while running”**
+
+### 📘 Components vs Connectors
+
+**Components** (units that execute at runtime)  
+Examples in Keras:
+- Model
+- Layer
+- Optimizer
+- Loss
+
+**Connectors** (interactions between components)  
+Examples:
+- Function calls
+- Tensor flow
+- Gradient updates
+
+### 🔄 Runtime Interactions
+
+**🧩 Intuition**  
+Think of a pipeline:
+
+```
+Input → Process → Output
+```
+
+**🔥 Keras Training Flow**
+
+```
+Input → Forward → Loss → Backward → Update
+```
+
+**🧱 C&C Diagram**
+
+```mermaid
+sequenceDiagram
+    participant Data
+    participant Model
+    participant Layer
+    participant Ops
+    participant Backend
+    participant Optimizer
+
+    Data->>Model: input x
+    Model->>Layer: forward
+    Layer->>Ops: compute
+    Ops->>Backend: execute
+    Backend-->>Ops: result
+    Ops-->>Layer: tensor
+    Layer-->>Model: output
+    Model->>Model: compute loss
+    Model->>Optimizer: update weights
+```
+
+### 💡 Key Insight
+Connectors define:
+- Data flow
+- Control flow
+- Execution order
+
+---
+
+## 🏗️ 3. ALLOCATION STRUCTURES (REAL-WORLD VIEW)
+
+### 🧩 Intuition
+“Where does this actually run?”
+
+### 📘 Definition
+Allocation maps software elements → hardware / runtime environment
+
+### 🔥 Keras Allocation
+
+| Software Part          | Runs Where                  |
+|------------------------|-----------------------------|
+| Model / Layer          | Python                      |
+| Ops / Backend (TF/JAX) | Computation engine          |
+| Numerical ops          | CPU / GPU                   |
+
+**🧱 Diagram**
+
+```mermaid
+graph TD
+    Python["Python (Model / Layer)"]
+    Backend["Backend (TF / JAX Ops)"]
+    GPU["GPU / CPU"]
+
+    Python --> Backend
+    Backend --> GPU
+```
+
+### ⚡ Why Allocation Matters
+
+- **Performance**  
+  CPU → slower  
+  GPU → faster (orders of magnitude)
+
+- **Scalability**  
+  Good allocation → scalable system  
+  Poor allocation → bottlenecks
+
+**🔥 Key Insight**  
+- Python **orchestrates**  
+- Backend **executes**  
+- GPU/CPU **computes**
+
+---
+
+## 🧠 4. REQUIRED EXTRACTIONS (CRITICAL ANSWERS)
+
+**✅ What is a dependency in Keras?**  
+A dependency is a *uses* relationship where one module (e.g., Model or Layer) relies on another (e.g., ops or backend) to perform its function.
+
+**✅ What is a connector in `model(x)`?**  
+A connector is the runtime function call and tensor data flow that propagates computation through:  
+Model → Layer → ops → backend.
+
+**✅ What is allocated to Python vs backend vs GPU?**
+
+| Runs on     | Responsibility                              |
+|-------------|---------------------------------------------|
+| **Python**  | Control logic (Model, Layer orchestration)  |
+| **Backend** | Tensor operations and execution             |
+| **GPU/CPU** | Numerical computation (matrix ops, etc.)    |
+
+---
+
+## 📚 5. KERAS API (MINIMAL ARCHITECTURE VIEW)
+
+### 🔹 Model API
+
+**Sequential**  
+Linear pipeline
+
+```mermaid
+graph TD
+    Input --> L1 --> L2 --> Output
+```
+
+**Functional**  
+Graph-based structure (more flexible)
+
+**💡 Insight**  
+Model = **C&C orchestrator**
+
+### 🔹 Custom Layers (`Layer.call()`)
+
+**🧩 Intuition**  
+A layer = processing unit
+
+**🔥 Key Point**
+
+```python
+def call(self, inputs):
+    return ...
+```
+
+Defines **runtime behavior**
+
+**💡 Insight**  
+- Component = Layer  
+- Connector entry point = `call()`
+
+### 🔹 Training API
+
+**`compile()`**  
+Connects:
+- Optimizer
+- Loss
+- Model  
+→ Defines runtime configuration
+
+**`train_on_batch()`** (and friends)  
+Executes full cycle:
+
+```
+Forward → Loss → Backward → Update
+```
+
+**💡 Insight**  
+This is the **full C&C pipeline execution**
+```
+
