@@ -6,6 +6,21 @@ This repository contains a **solo academic software architecture recovery projec
 
 The project is conducted as part of an introductory course in **Software Architecture**.
 
+## 🤖 What is Keras?
+
+**Keras** is a high-level deep learning framework for building and training neural networks in Python.
+
+In practical terms, Keras lets you define models with clean APIs (`Sequential`, Functional API, or subclassing) while delegating heavy numerical computation to backend engines.
+
+Modern Keras (Keras 3) is designed for **multi-backend execution**, allowing workflows across engines such as TensorFlow, JAX, and PyTorch through a unified developer experience.
+
+This makes Keras a strong case study for architecture recovery because it combines:
+
+- clean API-layer design
+- modular subsystem organization
+- runtime orchestration logic
+- backend and hardware abstraction
+
 
 
 The work combines:
@@ -67,11 +82,10 @@ keras-architecture-recovery/
 │   └── architecture-recovery-process.md → Shared methodology
 ├── weeks/
 │   ├── week01/
-│   │   ├── docs/ → Weekly logs and architecture notes
+│   │   ├── docs/ → Weekly logs and reading notes (e.g., Reading Note1.md)
 │   │   ├── diagrams/ → Mermaid architecture diagrams
 │   │   ├── experiments/ → Runnable exploration scripts
 │   │   ├── interpretation/ → Architectural analysis and findings
-│   │   ├── notes/ → Weekly personal notes
 │   │   ├── qa/ → Weekly QA exercises
 │   │   └── slides/ → Weekly presentation assets
 │   ├── week02/ (same structure)
@@ -86,7 +100,7 @@ Each **weekly folder** contains:
 - experiments  
 - diagrams  
 - interpretation files  
-- structured notes  
+- docs (reading notes + logs)  
 
 This incremental structure ensures continuous project maturity.
 

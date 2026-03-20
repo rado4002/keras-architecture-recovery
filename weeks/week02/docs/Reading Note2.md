@@ -1,6 +1,3 @@
-
-
-```markdown
 # Keras Architecture Recovery — Reading Notes  
 **Week 2 / 10**
 
@@ -313,5 +310,4 @@ Forward → Loss → Backward → Update
 
 **💡 Insight**  
 This is the **full C&C pipeline execution**
-```
 
