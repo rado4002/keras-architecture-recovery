@@ -91,7 +91,7 @@ graph TD
     Layer[Layer]
     Loss[Loss]
     Optimizer[Optimizer]
-    Backend[Backend (ops)]
+    Backend["Backend (ops)"]
 
     Data --> Model
 
