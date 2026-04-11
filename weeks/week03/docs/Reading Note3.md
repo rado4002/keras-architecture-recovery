@@ -4,29 +4,29 @@ Week 3/10
 
 ## Goal
 
-Understand how software behaves at runtime, why architecture matters, and how execution maps to real systems by using Keras as a concrete case.
+Understand how software behaves at runtime, why architecture matters, and how execution maps to real systems by using Keras as a concrete example.
 
 Focus areas:
 - C&C structures (runtime behavior)
 - Why architecture matters (communication and reasoning)
 - Allocation structures (execution environment)
 
-## 1) C&C Structures (Runtime View)
+## 1. C&C Structures (Runtime View)
 
 ### Intuition
 
 This view is not "who depends on who". It is "who interacts with who while the system is running".
 
-### Components and Connectors
+### Components vs Connectors
 
-Components are runtime units that perform computation, such as:
+Components (runtime units that perform computation):
 - Model
 - Layer
 - Loss
 - Optimizer
 - Backend (ops)
 
-Connectors are runtime interactions between components, such as:
+Connectors (interactions between components):
 - Function calls (`model(x)`, `layer.call()`)
 - Tensor data flow
 - Gradient propagation
@@ -54,33 +54,32 @@ sequenceDiagram
     participant Loss
     participant Optimizer
 
-    Data->>Model: Provide input batch (x, y)
+    Data->>Model: input (x, y)
 
-    Model->>Layer: Forward call
-    Layer->>Backend: Execute ops (matmul/add/activation)
-    Backend-->>Layer: Computed tensor
-    Layer-->>Model: Return predictions
+    Model->>Layer: forward(x)
+    Layer->>Backend: ops.matmul()
+    Backend-->>Layer: result
+    Layer-->>Model: predictions
 
-    Model->>Loss: Compute loss(y, pred)
-    Loss-->>Model: Return scalar loss
+    Model->>Loss: compute(y, pred)
+    Loss-->>Model: loss value
 
-    Model->>Backend: Compute gradients (autodiff)
-    Backend-->>Model: Return gradients
+    Model->>Backend: compute gradients
+    Backend-->>Model: gradients
 
-    Model->>Optimizer: Apply gradients
-    Optimizer->>Backend: Update trainable weights
-    Backend-->>Model: Updated weights ready
+    Model->>Optimizer: apply gradients
+    Optimizer->>Backend: update weights
 ```
 
 Key insight:
 - C&C structures describe runtime execution.
 - Connectors define data flow, control flow, and execution order.
 
-## 2) C&C Component Structure (Static Runtime View)
+## 2. C&C Component Structure (Static Runtime View)
 
 ### Intuition
 
-Instead of asking "when things happen", this view asks "what components exist and how are they connected".
+Instead of asking "when things happen", this view asks "what components exist and how they are connected".
 
 ### Component Diagram
 
@@ -109,14 +108,14 @@ Architectural insights:
 - Model is the central orchestrator.
 - Computation is delegated to the backend.
 - Layers define logic but do not execute low-level math directly.
-- Backend isolates implementation details.
+- Backend isolates low-level implementation.
 
-## 3) Why Architecture Matters
+## 3. Why Architecture Matters
 
-### Core Roles
+### Core Roles of Architecture
 
 1. Communication
-- Creates shared understanding.
+- Provides shared understanding.
 - Aligns developers and stakeholders.
 
 2. Reasoning
@@ -125,7 +124,7 @@ Architectural insights:
 3. Constraints
 - Defines what is allowed and what is restricted.
 
-### Keras Multi-backend Rule
+### Keras Example (Multi-backend Design)
 
 Keras enforces:
 
@@ -139,7 +138,7 @@ Not:
 Layer -> TensorFlow directly
 ```
 
-Benefits:
+Architectural benefits:
 - Portability across TensorFlow, JAX, and PyTorch.
 - Modifiability through clear abstraction boundaries.
 - Performance flexibility through backend-specific optimization.
@@ -148,7 +147,7 @@ Key insight:
 
 > Architecture separates control (Keras) from execution (backend).
 
-## 4) Allocation Structures (Real-world View)
+## 4. Allocation Structures (Real-world View)
 
 ### Intuition
 
@@ -186,21 +185,21 @@ Key insight:
 - Backend executes.
 - Hardware computes.
 
-## 5) Required Extractions
+## 5. Required Extractions
 
 What is a connector in Keras?
-- A runtime interaction, such as function calls or tensor flow between components (for example, Model -> Layer -> Backend).
+- A runtime interaction such as a function call or tensor flow between components (for example, Model -> Layer -> Backend).
 
 What happens during a forward pass?
-- Input flows through Model -> Layer -> Backend and produces predictions.
+- Input data flows through Model -> Layer -> Backend and produces predictions.
 
 Which part runs on GPU?
-- The backend execution engine runs GPU computations.
+- The backend execution engine performs GPU computation.
 
-Why can Keras switch backends?
-- Because computations are routed through `keras.ops`, which abstracts backend details.
+Why can Keras switch backends easily?
+- Because computations go through `keras.ops`, which abstracts backend implementation.
 
-## 6) Summary of Keras Architectural View
+## 6. Keras Architectural View (Summary)
 
 Model:
 - Central orchestrator.
@@ -208,11 +207,11 @@ Model:
 
 Layer:
 - Defines transformations.
-- Entry point is `call()`.
+- Entry point: `call()`.
 
 Backend (ops):
 - Executes numerical computation.
-- Interfaces with hardware runtimes.
+- Handles hardware interaction.
 
 Training pipeline:
 
