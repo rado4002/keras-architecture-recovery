@@ -1,209 +1,126 @@
-# ⭐ Recovering the Architecture of Keras  
+# Recovering the Architecture of Keras
 
-## 📌 Project Context  
+## Project Context
 
-This repository contains a **solo academic software architecture recovery project** focused on analyzing and documenting the architecture of the open-source deep learning framework **Keras**.
+This repository contains a solo academic software architecture recovery project focused on analyzing and documenting the architecture of the open-source deep learning framework Keras.
 
-The project is conducted as part of an introductory course in **Software Architecture**.
+The project is conducted as part of an introductory Software Architecture course.
 
-## 🤖 What is Keras?
+## Why Keras
 
-**Keras** is a high-level deep learning framework for building and training neural networks in Python.
+Keras is a suitable architecture-recovery target because it combines:
+- Clean API-layer design (`Sequential`, Functional API, subclassing)
+- Modular subsystem organization
+- Runtime orchestration logic
+- Backend and hardware abstraction
 
-In practical terms, Keras lets you define models with clean APIs (`Sequential`, Functional API, or subclassing) while delegating heavy numerical computation to backend engines.
+Modern Keras (Keras 3) supports multi-backend execution across TensorFlow, JAX, and PyTorch through a unified API surface.
 
-Modern Keras (Keras 3) is designed for **multi-backend execution**, allowing workflows across engines such as TensorFlow, JAX, and PyTorch through a unified developer experience.
+## Project Objectives
 
-This makes Keras a strong case study for architecture recovery because it combines:
+The project aims to recover and explain Keras architecture from static and dynamic perspectives.
 
-- clean API-layer design
-- modular subsystem organization
-- runtime orchestration logic
-- backend and hardware abstraction
+Primary goals:
+- Recover the Module View (subsystems and dependencies)
+- Recover the Component-and-Connector (C&C) View (runtime interactions)
+- Recover the Allocation View (mapping to runtime/hardware)
+- Identify architectural patterns used by Keras
+- Build practical understanding of AI model execution pipelines
 
+## Method
 
+Architecture recovery is conducted iteratively each week:
 
-The work combines:
+1. Static analysis
+  - Source/module exploration
+  - Dependency observation
+  - Subsystem identification
+2. Dynamic analysis
+  - Forward and training-step tracing
+  - Runtime connector observation
+  - Backend delegation evidence
+3. Architectural synthesis
+  - Diagrams
+  - Responsibility mapping
+  - Pattern interpretation
+4. Documentation refinement
+  - Weekly README updates
+  - Interpretation improvements
+  - QA and presentation artifacts
 
-- theoretical architecture concepts  
-- reverse-engineering techniques  
-- controlled experimentation  
-- progressive technical documentation  
+## Repository Structure
 
----
-
-## 🎯 Project Objectives  
-
-The primary objective is to **recover and understand the architectural structure of Keras** from both static and dynamic perspectives.
-
-Key goals include:
-
-- Recover the **Module View**  
-  → Understand logical organization and subsystem responsibilities  
-
-- Recover the **Component-and-Connector (C&C) View**  
-  → Analyze runtime execution flow of model training and inference  
-
-- Recover the **Allocation View**  
-  → Study how computation maps to execution environments (CPU / backend engines)
-
-- Identify **architectural patterns** used in the framework  
-
-- Develop a **fundamental conceptual understanding of AI model pipelines**
-
-- Apply software architecture theory to a **large-scale industrial framework**
-
----
-
-## 🧠 Learning Philosophy  
-
-This project follows a **Learning-by-Doing Architecture Recovery Approach**.
-
-Instead of only reading documentation, each learning cycle includes:
-
-- Executing small controlled Keras experiments  
-- Observing system structure and runtime behavior  
-- Building architectural diagrams  
-- Writing responsibility-driven interpretations  
-- Refining mental models progressively  
-
-The objective is to develop:
-
-- architectural observation skills  
-- system reasoning capability  
-- technical documentation discipline  
-
-
-## 🏗️ Project Structure
-```
+```text
 keras-architecture-recovery/
-│
 ├── docs/
-│   └── architecture-recovery-process.md → Shared methodology
+│   ├── architecture-recovery-process.md
+│   └── reusable-project-framework.md
 ├── weeks/
 │   ├── week01/
-│   │   ├── README.md → Weekly log and summary
-│   │   ├── docs/ → Reading notes and supplementary docs
-│   │   ├── diagrams/ → Mermaid architecture diagrams
-│   │   ├── experiments/ → Runnable exploration scripts
-│   │   ├── interpretation/ → Architectural analysis and findings
-│   │   ├── qa/ → Weekly QA exercises
-│   │   └── slides/ → Weekly presentation assets
-│   ├── week02/ (same structure)
-│   └── week03/ (same structure)
-└── vendor/ → Vendored Keras source used for recovery
-
+│   ├── week02/
+│   └── week03/
+└── vendor/
+   └── keras/
 ```
 
+Each week contains:
+- `README.md`
+- `docs/`
+- `diagrams/`
+- `experiments/`
+- `interpretation/`
 
-Each **weekly folder** contains:
 
-- week-level README log  
-- experiments  
-- diagrams  
-- interpretation files  
-- docs (reading notes + supporting notes)  
+## Weekly Progress
 
-This incremental structure ensures continuous project maturity.
+### Week 01 (Complete)
 
----
+Focus:
+- Initial architecture reconnaissance
+- Core module discovery
+- First runtime forward-flow observations
 
-## 🔬 Methodology  
+Main artifacts:
+- `weeks/week01/README.md`
+- `weeks/week01/experiments/README.md`
 
-Architecture recovery is conducted using a **systematic engineering approach**:
+### Week 02 (Complete)
 
-### 1️⃣ Static Analysis  
-- Source code module exploration  
-- Dependency observation  
-- subsystem identification  
+Focus:
+- Dependency discovery (`layers -> ops -> backend`)
+- Forward and backward training-step tracing
+- Device/allocation mapping
+- Architecture pattern interpretation
 
-### 2️⃣ Dynamic Analysis  
-- Forward execution tracing  
-- training loop experimentation  
-- backend delegation observation  
+Main artifacts:
+- `weeks/week02/README.md`
+- `weeks/week02/experiments/README.md`
 
-### 3️⃣ Architectural Synthesis  
-- Construction of architecture views  
-- identification of design patterns  
-- responsibility interpretation  
+### Week 03 (In Progress)
 
-### 4️⃣ Iterative Refinement  
-- Weekly documentation updates  
-- diagram improvement  
-- conceptual clarification  
+Focus:
+- C&C sequence and component views
+- Backend delegation evidence
+- Consolidated responsibility and pattern interpretation
 
----
+Main artifacts:
+- `weeks/week03/README.md`
+- `weeks/week03/docs/Reading Note3.md`
+- `weeks/week03/diagrams/README.md`
+- `weeks/week03/experiments/README.md`
+- `weeks/week03/interpretation/Responsibilities, Patterns, and Findings.md`
 
-## 📊 Architecture Views Targeted  
+## Current State Snapshot
 
-The project aims to progressively reconstruct:
+- Week 01 and Week 02 are complete.
+- Week 03 core artifacts (docs, diagrams, experiments, interpretation) are produced and being refined.
+- The project now contains per-folder README files for experiment and diagram navigation in active weeks.
 
-- **Module View** → subsystem decomposition and dependency structure  
-- **Component & Connector View** → runtime computational pipeline  
-- **Allocation View** → mapping between framework logic and hardware/backend execution  
+## Learning Outcomes Targeted
 
-These views follow **standard software architecture documentation practices.**
-
----
-
-## 🚀 Expected Learning Outcomes  
-
-By the end of the project, the following outcomes are expected:
-
-- Ability to analyze architecture of complex open-source systems  
-- Practical understanding of deep learning execution pipelines  
-- Experience in architecture recovery techniques  
-- Identification of modern framework architectural patterns  
-- Creation of a professional technical portfolio artifact  
-
----
-
-## 📅 Current Project Status  
-
-✅ **Week 01 Completed — Initial Architecture Reconnaissance**
-
-- Environment and repository setup completed
-- Core Keras module mapping completed (models, layers, ops, backend abstraction)
-- Initial forward-pass runtime tracing completed
-- First architecture patterns identified (layered + pipeline)
-- Initial responsibility analysis documented
-
-✅ **Week 02 Completed — Module, C&C, and Allocation Deepening**
-
-- Static dependency discovery validated (`layers → ops → backend`)
-- Forward-pass flow traced with custom debug layer instrumentation
-- Backward/gradient flow recovered with manual training-step experiment
-- Device allocation view documented (Python orchestration vs backend/hardware execution)
-- Architectural interpretation finalized (modularity, delegation, pattern analysis)
-
-🟡 **Week 03 In Progress — Next Recovery Phase**
-
-Current focus:
-
-- Expand C&C analysis for Functional API and multi-layer model structures
-- Trace full `model.fit()` runtime call chain across backends
-- Refine inter-layer dependency and optimization pattern documentation
-
----
-
-## 📖 Motivation  
-
-Modern software engineers increasingly interact with **AI-driven platforms and computational frameworks**.
-
-Understanding their architecture provides:
-
-- stronger system design intuition  
-- better debugging and optimization capability  
-- improved ability to integrate AI into large software systems  
-
-Keras is selected as the study subject because it represents:
-
-- a real industrial-grade AI framework  
-- a modular layered architecture  
-- a system combining APIs, mathematical engines, and hardware abstraction  
-
-This project aims to bridge the gap between  
-**classical software architecture education**  
-and  
-**modern intelligent software systems.**
+By project completion, expected outcomes are:
+- Stronger architecture-analysis skills on large frameworks
+- Practical understanding of deep learning runtime execution
+- Experience with architecture recovery workflows
+- Portfolio-grade technical documentation and evidence artifacts
 
