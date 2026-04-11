@@ -54,21 +54,22 @@ sequenceDiagram
     participant Loss
     participant Optimizer
 
-    Data->>Model: input (x, y)
+    Data->>Model: Provide input batch (x, y)
 
-    Model->>Layer: forward(x)
-    Layer->>Backend: ops.matmul()
-    Backend-->>Layer: result
-    Layer-->>Model: predictions
+    Model->>Layer: Forward call
+    Layer->>Backend: Execute ops (matmul/add/activation)
+    Backend-->>Layer: Computed tensor
+    Layer-->>Model: Return predictions
 
-    Model->>Loss: compute(y, pred)
-    Loss-->>Model: loss value
+    Model->>Loss: Compute loss(y, pred)
+    Loss-->>Model: Return scalar loss
 
-    Model->>Backend: compute gradients
-    Backend-->>Model: gradients
+    Model->>Backend: Compute gradients (autodiff)
+    Backend-->>Model: Return gradients
 
-    Model->>Optimizer: apply gradients
-    Optimizer->>Backend: update weights
+    Model->>Optimizer: Apply gradients
+    Optimizer->>Backend: Update trainable weights
+    Backend-->>Model: Updated weights ready
 ```
 
 Key insight:
