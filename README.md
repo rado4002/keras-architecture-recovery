@@ -1,126 +1,142 @@
-# Recovering the Architecture of Keras
+# Keras Architecture Recovery
 
-## Project Context
+This repository contains a week-by-week software architecture recovery study of Keras (Keras 3), built as a solo course project.
 
-This repository contains a solo academic software architecture recovery project focused on analyzing and documenting the architecture of the open-source deep learning framework Keras.
-
-The project is conducted as part of an introductory Software Architecture course.
-
-## Why Keras
-
-Keras is a suitable architecture-recovery target because it combines:
-- Clean API-layer design (`Sequential`, Functional API, subclassing)
-- Modular subsystem organization
-- Runtime orchestration logic
-- Backend and hardware abstraction
-
-Modern Keras (Keras 3) supports multi-backend execution across TensorFlow, JAX, and PyTorch through a unified API surface.
+The project goal is to recover and document how Keras is structured, how it behaves at runtime, and how its design supports quality attributes such as modifiability, portability, and maintainability.
 
 ## Project Objectives
 
-The project aims to recover and explain Keras architecture from static and dynamic perspectives.
+- Recover architecture using multiple complementary views:
+	- Module view (static structure)
+	- C&C view (runtime behavior)
+	- Allocation view (software to runtime/hardware mapping)
+- Validate architectural claims with small runnable experiments
+- Produce reusable documentation artifacts each week
+- Build a cumulative interpretation of Keras design patterns and responsibilities
 
-Primary goals:
-- Recover the Module View (subsystems and dependencies)
-- Recover the Component-and-Connector (C&C) View (runtime interactions)
-- Recover the Allocation View (mapping to runtime/hardware)
-- Identify architectural patterns used by Keras
-- Build practical understanding of AI model execution pipelines
+## Core Project Topics (Separate Files)
 
-## Method
+The required project topics are documented as separate files:
 
-Architecture recovery is conducted iteratively each week:
-
-1. Static analysis
-  - Source/module exploration
-  - Dependency observation
-  - Subsystem identification
-2. Dynamic analysis
-  - Forward and training-step tracing
-  - Runtime connector observation
-  - Backend delegation evidence
-3. Architectural synthesis
-  - Diagrams
-  - Responsibility mapping
-  - Pattern interpretation
-4. Documentation refinement
-  - Weekly README updates
-  - Interpretation improvements
-  - QA and presentation artifacts
+- Project description: `docs/project-description.md`
+- Business context: `docs/business-context.md`
+- Key quality concerns: `docs/key-quality-concerns.md`
+- Early architecture design decisions (recovered): `docs/early-architecture-design-decisions-recovered.md`
 
 ## Repository Structure
 
 ```text
 keras-architecture-recovery/
+├── README.md
 ├── docs/
 │   ├── architecture-recovery-process.md
+│   ├── business-context.md
+│   ├── early-architecture-design-decisions-recovered.md
+│   ├── key-quality-concerns.md
+│   ├── project-description.md
 │   └── reusable-project-framework.md
-├── weeks/
-│   ├── week01/
-│   ├── week02/
-│   └── week03/
-└── vendor/
-   └── keras/
+├── vendor/
+│   └── keras/                 # local vendor snapshot/reference
+└── weeks/
+		├── week01/
+		├── week02/
+		├── week03/
+		└── week04/
 ```
 
-Each week contains:
-- `README.md`
-- `docs/`
-- `diagrams/`
-- `experiments/`
-- `interpretation/`
+## Weekly Workflow
 
+Each week follows the same structure:
 
-## Weekly Progress
+- `docs/`: reading notes and theory mapping
+- `diagrams/`: architecture diagrams with interpretation
+- `experiments/`: minimal evidence scripts
+- `interpretation/`: synthesized responsibilities, patterns, and findings
+- `README.md`: week-level summary and artifact index
 
-### Week 01 (Complete)
+## Week Index
 
-Focus:
-- Initial architecture reconnaissance
-- Core module discovery
-- First runtime forward-flow observations
+### Week 01
 
-Main artifacts:
-- `weeks/week01/README.md`
-- `weeks/week01/experiments/README.md`
+- Focus: foundational reconnaissance and first architecture mapping
+- Main outputs:
+	- `weeks/week01/README.md`
+	- `weeks/week01/docs/Reading Note1.md`
+	- `weeks/week01/diagrams/README.md`
 
-### Week 02 (Complete)
+### Week 02
 
-Focus:
-- Dependency discovery (`layers -> ops -> backend`)
-- Forward and backward training-step tracing
-- Device/allocation mapping
-- Architecture pattern interpretation
+- Focus: dependency discovery, forward/backward flow, allocation basics
+- Main outputs:
+	- `weeks/week02/README.md`
+	- `weeks/week02/docs/Reading Note2.md`
+	- `weeks/week02/diagrams/README.md`
+	- `weeks/week02/experiments/README.md`
 
-Main artifacts:
-- `weeks/week02/README.md`
-- `weeks/week02/experiments/README.md`
+### Week 03
 
-### Week 03 (In Progress)
+- Focus: C&C runtime sequence and component-level interpretation
+- Main outputs:
+	- `weeks/week03/README.md`
+	- `weeks/week03/docs/Reading Note3.md`
+	- `weeks/week03/diagrams/README.md`
+	- `weeks/week03/experiments/README.md`
+	- `weeks/week03/interpretation/Responsibilities, Patterns, and Findings.md`
 
-Focus:
-- C&C sequence and component views
-- Backend delegation evidence
-- Consolidated responsibility and pattern interpretation
+### Week 04
 
-Main artifacts:
-- `weeks/week03/README.md`
-- `weeks/week03/docs/Reading Note3.md`
-- `weeks/week03/diagrams/README.md`
-- `weeks/week03/experiments/README.md`
-- `weeks/week03/interpretation/Responsibilities, Patterns, and Findings.md`
+- Focus: multi-view documentation quality and modifiability analysis
+- Main outputs:
+	- `weeks/week04/README.md`
+	- `weeks/week04/docs/Reading Note4.md`
+	- `weeks/week04/diagrams/README.md`
+	- `weeks/week04/experiments/README.md`
+	- `weeks/week04/interpretation/Responsibilities, Patterns, and Findings.md`
 
-## Current State Snapshot
+## How to Run Experiments
 
-- Week 01 and Week 02 are complete.
-- Week 03 core artifacts (docs, diagrams, experiments, interpretation) are produced and being refined.
-- The project now contains per-folder README files for experiment and diagram navigation in active weeks.
+From repository root:
 
-## Learning Outcomes Targeted
+```powershell
+& .\.venv\Scripts\Activate.ps1
+```
 
-By project completion, expected outcomes are:
-- Stronger architecture-analysis skills on large frameworks
-- Practical understanding of deep learning runtime execution
-- Experience with architecture recovery workflows
-- Portfolio-grade technical documentation and evidence artifacts
+Then run a week-specific experiment, for example:
 
+```powershell
+python "weeks/week04/experiments/experiments1-backend switching"
+```
+
+Note:
+- Some experiment files are executable Python scripts without a `.py` extension.
+
+## Method Summary
+
+The recovery process used in this project combines:
+
+1. Reading and theory extraction (architecture concepts)
+2. Static code and dependency observation
+3. Runtime tracing through small experiments
+4. Diagram construction (Module/C&C/Allocation)
+5. Pattern and responsibility interpretation
+
+For process details, see:
+- `docs/architecture-recovery-process.md`
+- `docs/reusable-project-framework.md`
+
+For core project topic statements, see:
+- `docs/project-description.md`
+- `docs/business-context.md`
+- `docs/key-quality-concerns.md`
+- `docs/early-architecture-design-decisions-recovered.md`
+
+## Current Status
+
+- Weeks 01-04 contain documented artifacts across docs, diagrams, and weekly summaries.
+- Week 04 structure has been aligned with the same format used in previous weeks.
+- The project is ready to continue with Week 05 using the same workflow template.
+
+## License and Source Note
+
+- Keras source is included under `vendor/keras/` for architecture study context.
+- Refer to `vendor/keras/LICENSE` for upstream licensing terms.
