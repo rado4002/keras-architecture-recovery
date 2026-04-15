@@ -1,0 +1,7 @@
+import keras
+from keras import ops
+
+x = ops.ones((2,2))
+y = ops.ones((2,2))
+
+print(ops.matmul(x, y))

@@ -48,3 +48,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Local presentation draft
+docs/midterm-presentation-proposal.md
