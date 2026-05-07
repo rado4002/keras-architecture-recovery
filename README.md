@@ -1,142 +1,102 @@
 # Keras Architecture Recovery
 
-This repository contains a week-by-week software architecture recovery study of Keras (Keras 3), built as a solo course project.
+A software architecture recovery study of Keras 3, applying the three-view framework
+from Bass, Clements, Kazman — *Software Architecture in Practice*.
 
-The project goal is to recover and document how Keras is structured, how it behaves at runtime, and how its design supports quality attributes such as modifiability, portability, and maintainability.
+**Start here:** [ARCHITECTURE.md](ARCHITECTURE.md) — the complete recovered architecture.
 
-## Project Objectives
+---
 
-- Recover architecture using multiple complementary views:
-	- Module view (static structure)
-	- C&C view (runtime behavior)
-	- Allocation view (software to runtime/hardware mapping)
-- Validate architectural claims with small runnable experiments
-- Produce reusable documentation artifacts each week
-- Build a cumulative interpretation of Keras design patterns and responsibilities
+## What This Project Does
 
-## Core Project Topics (Separate Files)
+Keras is a high-level deep learning API written in Python that runs on top of TensorFlow,
+JAX, or PyTorch. It provides a unified interface for building and training neural networks
+while delegating all tensor computation to a swappable backend.
 
-The required project topics are documented as separate files:
+This project recovers and documents the software architecture of Keras 3 using three
+complementary views (Module, C&C, Allocation) and validates every claim with a runnable
+experiment.
 
-- Project description: `docs/project-description.md`
-- Business context: `docs/business-context.md`
-- Key quality concerns: `docs/key-quality-concerns.md`
-- Early architecture design decisions (recovered): `docs/early-architecture-design-decisions-recovered.md`
+---
 
 ## Repository Structure
 
-```text
+```
 keras-architecture-recovery/
-├── README.md
-├── docs/
-│   ├── architecture-recovery-process.md
-│   ├── business-context.md
-│   ├── early-architecture-design-decisions-recovered.md
-│   ├── key-quality-concerns.md
-│   ├── project-description.md
-│   └── reusable-project-framework.md
-├── vendor/
-│   └── keras/                 # local vendor snapshot/reference
-└── weeks/
-		├── week01/
-		├── week02/
-		├── week03/
-		└── week04/
+│
+├── ARCHITECTURE.md        ← Read this first — complete recovered architecture
+├── main.py                ← Runs all experiments to validate architectural claims
+│
+├── experiments/           ← Empirical evidence (6 Python scripts)
+├── views/                 ← Canonical architectural views (3 Mermaid diagrams)
+├── findings/              ← Synthesized analysis (components, patterns, QA, decisions)
+├── docs/                  ← Project context, methodology, quality concerns
+└── vendor/keras/          ← Keras 3 source (read-only reference)
 ```
 
-## Weekly Workflow
+---
 
-Each week follows the same structure:
-
-- `docs/`: reading notes and theory mapping
-- `diagrams/`: architecture diagrams with interpretation
-- `experiments/`: minimal evidence scripts
-- `interpretation/`: synthesized responsibilities, patterns, and findings
-- `README.md`: week-level summary and artifact index
-
-## Week Index
-
-### Week 01
-
-- Focus: foundational reconnaissance and first architecture mapping
-- Main outputs:
-	- `weeks/week01/README.md`
-	- `weeks/week01/docs/Reading Note1.md`
-	- `weeks/week01/diagrams/README.md`
-
-### Week 02
-
-- Focus: dependency discovery, forward/backward flow, allocation basics
-- Main outputs:
-	- `weeks/week02/README.md`
-	- `weeks/week02/docs/Reading Note2.md`
-	- `weeks/week02/diagrams/README.md`
-	- `weeks/week02/experiments/README.md`
-
-### Week 03
-
-- Focus: C&C runtime sequence and component-level interpretation
-- Main outputs:
-	- `weeks/week03/README.md`
-	- `weeks/week03/docs/Reading Note3.md`
-	- `weeks/week03/diagrams/README.md`
-	- `weeks/week03/experiments/README.md`
-	- `weeks/week03/interpretation/Responsibilities, Patterns, and Findings.md`
-
-### Week 04
-
-- Focus: multi-view documentation quality and modifiability analysis
-- Main outputs:
-	- `weeks/week04/README.md`
-	- `weeks/week04/docs/Reading Note4.md`
-	- `weeks/week04/diagrams/README.md`
-	- `weeks/week04/experiments/README.md`
-	- `weeks/week04/interpretation/Responsibilities, Patterns, and Findings.md`
-
-## How to Run Experiments
-
-From repository root:
+## Quick Start
 
 ```powershell
 & .\.venv\Scripts\Activate.ps1
+python main.py
 ```
 
-Then run a week-specific experiment, for example:
+This runs all six experiments in sequence and prints the confirmed architectural model.
 
-```powershell
-python "weeks/week04/experiments/experiments1-backend switching"
+---
+
+## Reading Path
+
+| Step | File | Time |
+|---|---|---|
+| 1 | [ARCHITECTURE.md](ARCHITECTURE.md) | ~10 min — full architecture |
+| 2 | [views/module-view.md](views/module-view.md) | ~5 min — static structure |
+| 3 | [views/cnc-view.md](views/cnc-view.md) | ~5 min — runtime pipeline |
+| 4 | [views/allocation-view.md](views/allocation-view.md) | ~3 min — execution mapping |
+| 5 | [findings/qa-scenarios.md](findings/qa-scenarios.md) | ~5 min — formal QA scenarios |
+| 6 | [findings/design-decisions.md](findings/design-decisions.md) | ~5 min — 7-category decisions |
+
+---
+
+## Recovered Architectural Model (Summary)
+
+**Module View — dependency chain:**
+```
+keras.models  ->  keras.layers  ->  keras.ops  ->  Backend (TF / JAX / PyTorch)
 ```
 
-Note:
-- Some experiment files are executable Python scripts without a `.py` extension.
+**C&C View — training pipeline:**
+```
+fit()  ->  forward pass  ->  loss  ->  gradients  ->  weight update  ->  [repeat]
+```
 
-## Method Summary
+**Allocation View — execution tiers:**
+```
+Python (orchestration)  ->  keras.ops (boundary)  ->  Backend Runtime  ->  CPU / GPU
+```
 
-The recovery process used in this project combines:
+---
 
-1. Reading and theory extraction (architecture concepts)
-2. Static code and dependency observation
-3. Runtime tracing through small experiments
-4. Diagram construction (Module/C&C/Allocation)
-5. Pattern and responsibility interpretation
+## Key Quality Attributes
 
-For process details, see:
-- `docs/architecture-recovery-process.md`
-- `docs/reusable-project-framework.md`
+| Attribute | How Keras achieves it |
+|---|---|
+| **Modifiability** | `keras.ops` abstraction boundary isolates backend from model code |
+| **Portability** | Backend bound at runtime via `KERAS_BACKEND`; zero code changes to switch |
+| **Maintainability** | Strict layered dependency direction; one responsibility per level |
 
-For core project topic statements, see:
-- `docs/project-description.md`
-- `docs/business-context.md`
-- `docs/key-quality-concerns.md`
-- `docs/early-architecture-design-decisions-recovered.md`
+---
 
-## Current Status
+## Project Context
 
-- Weeks 01-04 contain documented artifacts across docs, diagrams, and weekly summaries.
-- Week 04 structure has been aligned with the same format used in previous weeks.
-- The project is ready to continue with Week 05 using the same workflow template.
-
-## License and Source Note
-
-- Keras source is included under `vendor/keras/` for architecture study context.
-- Refer to `vendor/keras/LICENSE` for upstream licensing terms.
+| Topic | File |
+|---|---|
+| Project scope and subject selection | [docs/project-description.md](docs/project-description.md) |
+| Business context and stakeholders | [docs/business-context.md](docs/business-context.md) |
+| Key quality concerns | [docs/key-quality-concerns.md](docs/key-quality-concerns.md) |
+| Recovery methodology | [docs/methodology.md](docs/methodology.md) |
+| Early architecture design decisions | [findings/design-decisions.md](findings/design-decisions.md) |
+| Quality attribute scenarios | [findings/qa-scenarios.md](findings/qa-scenarios.md) |
+| Patterns and tactics | [findings/patterns.md](findings/patterns.md) |
